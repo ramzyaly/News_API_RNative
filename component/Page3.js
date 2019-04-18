@@ -31,7 +31,7 @@ class Page3 extends React.Component {
 
 
         axios.get(`https://gapi.xyz/api/v2/${this.state.articles}`).then((x) => {
-            this.setState({
+            this.setState ({
                 title1: x.data.title[0],
                 loading: false
             });
