@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import { ScrollView } from 'react-native';
-import { Container, Header, Left, Body, Right, Title, Footer, Content, Icon, Button, Item, Input, Text, ListItem, List, Spinner, Thumbnail } from 'native-base';
+import { Image, ScrollView } from 'react-native';
+import { Container, Card, CardItem, Header, Left, Body, Right, Title, Footer, Content, Icon, Button, Item, Input, Text, ListItem, List, Spinner, Thumbnail } from 'native-base';
 
 class Page2 extends React.Component {
 
@@ -14,10 +14,9 @@ class Page2 extends React.Component {
         }
     }
 
-
     static navigationOptions = ({ navigation }) => {
         return {
-            title: navigation.getParam("title1"),
+            title: navigation.getParam("back"),
             headerStyle: {
                 backgroundColor: "purple"
             },
@@ -26,64 +25,51 @@ class Page2 extends React.Component {
     }
 
     componentDidMount() {
-
         this.setState({
             loading: true
         });
 
 
         axios.get(`https://gapi.xyz/api/v2/${this.state.articles}`).then((x) => {
-            this.setState({
-                title1: x.data.title,
+            this.setState ({
+                title1: x.data.title[0],
                 loading: false
             });
         });
     }
 
-    displayNews() {
-        return this.state.aricles.map((val, i) => {
-            var title1=val.articles.title;
-            var desc1=val.articles.desc;
-            var link1=val.articles.link;
-            var website1=val.articles.website;
-            var source1=val.articles.source;
-            var date1=val.articles.date;
-            var imgno=val.articles.image;
-
-            return (
-                <ListItem key={i} avatar onPress={() => {
-                    this.props.navigation.navigate("Page3", {
-                        title1: title1,
-                        desc1: desc1,
-                        link1: link1,
-                        website1: website1,
-                        source1: source1,
-                        date1: date1,
-                        imgno: imgno
-                        
-                    })
-                }}>
+    displayDetails() {
+        return (
+            <Card transparent style={{ flex: 0, width: 350, alignSelf: "center", marginTop: 10 }}>
+                <CardItem>
                     <Left>
-                        <Thumbnail square source={{ uri: imgno }} />
+                        <Body>
+                            <Text>{this.props.navigation.getParam("title1")}</Text>
+                        </Body>
                     </Left>
-                    <Body>
-                        <Text>{title1}</Text>
-                        <Text note>{desc1}</Text>
-                    </Body>
                     <Right>
                     </Right>
-                </ListItem>
-            )
-        })
+                </CardItem>
+                <CardItem>
+                    <Body>
+                        <Image source={{ uri: this.props.navigation.getParam("imgno") }} style={{ height: 200, width: "100%", flex: 1 }} />
+                    </Body>
+                </CardItem>
+                <CardItem>
+                    <Body>
+                        <Text style={{ fontSize: 12 }}>{this.props.navigation.getParam("date1")}</Text>
+                        <Text style={{ fontSize: 12 }}>{this.props.navigation.getParam("desc1")}</Text>
+                        </Body>
+                </CardItem>
+            </Card>
+        )
     }
 
     render() {
         return (
             <Container>
                 <ScrollView>
-                    <List>
-                        {this.state.loading ? <Spinner /> : this.state.title1 ? this.displayNews() : <Text></Text>}
-                    </List>
+                    {this.displayDetails()}
                 </ScrollView>
             </Container>
         )

@@ -33,19 +33,25 @@ class Page1 extends React.Component {
 
     displayArticles() {
         return this.state.news.map((val, i) => {
-            var title1=val.articles.title;
-            var desc1=val.articles.desc;
-            var link1=val.articles.link;
-            var website1=val.articles.website;
-            var source1=val.articles.source;
-            var date1=val.articles.date;
-            var imgno=val.articles.image;
+            var title1=val.title;
+            var desc1=val.desc;
+            var link1=val.link;
+            var website1=val.website;
+            var source1=val.source;
+            var date1=val.date;
+            var imgno=val.image;
 
             return (
                 <ListItem key={i} avatar onPress={() => {
                     this.props.navigation.navigate("Page2", {
                         title1: title1,
-                        desc1: desc1
+                        desc1: desc1,
+                        imgno: imgno, 
+                        link1: link1,
+                        website1: website1,
+                        source1:source1,
+                        date1: date1,
+                        back: "Back"
                     })
                 }}>
                     <Left>
